@@ -2,4 +2,10 @@
 
 declare(strict_types=1);
 
-echo 'No tests!' . PHP_EOL;
+use function App\normalizeEmail;
+
+require_once __DIR__ . '/../src/normalizeEmail.php';
+
+if ('mail@app.test' !== normalizeEmail('mail+suffix@app.test')) {
+    echo 'Values are not equal' . PHP_EOL;
+}
