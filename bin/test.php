@@ -9,28 +9,33 @@ use Test\NormalizeEmailTest;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $tests = [
-    NormalizeEmailTest::testSimple(...),
-    NormalizeEmailTest::testSuffix(...),
-    NormalizeEmailTest::testDashedSuffix(...),
-    NormalizeEmailTest::testDoubleSuffix(...),
-    NormalizeEmailTest::testDashedMail(...),
+    NormalizeEmailTest::class,
 ];
 
 $success = true;
 
-foreach ($tests as $function) {
-    $name = (new ReflectionFunction($function))->getName();
+foreach ($tests as $class) {
+    $classRef = new ReflectionClass($class);
 
-    try {
-        $function();
-    } catch (IncompleteTestException $exception) {
-        echo 'INCOMPLETE ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
-    } catch (AssertException $exception) {
-        $success = false;
-        echo 'FAIL ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
-    } catch (Throwable $exception) {
-        $success = false;
-        echo 'ERROR ' . $name . PHP_EOL . $exception . PHP_EOL . PHP_EOL;
+    foreach ($classRef->getMethods(ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_STATIC) as $methodRef) {
+        if (!str_starts_with($methodRef->getName(), 'test')) {
+            continue;
+        }
+
+        $name = $classRef->getName() . '::' . $methodRef->getName();
+        $methodName = $methodRef->getName();
+
+        try {
+            $class::$methodName();
+        } catch (IncompleteTestException $exception) {
+            echo 'INCOMPLETE ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
+        } catch (AssertException $exception) {
+            $success = false;
+            echo 'FAIL ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
+        } catch (Throwable $exception) {
+            $success = false;
+            echo 'ERROR ' . $name . PHP_EOL . $exception . PHP_EOL . PHP_EOL;
+        }
     }
 }
 
