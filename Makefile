@@ -13,3 +13,6 @@ docker-down:
 
 app:
 	@docker compose run --rm app-php-cli php bin/app.php
+
+app-test:
+	@docker compose run --rm app-php-cli php bin/test.php
