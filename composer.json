@@ -20,6 +20,7 @@
     "autoload-dev": {
         "files": [
             "tests/assertEquals.php",
+            "tests/markTestIncomplete.php",
             "tests/normalizeEmailSimpleTest.php",
             "tests/normalizeEmailSuffixTest.php",
             "tests/normalizeEmailDashedSuffixTest.php",

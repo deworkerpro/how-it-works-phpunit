@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Test\AssertException;
+use Test\IncompleteTestException;
 
 use function Test\normalizeEmailSimpleTest;
 use function Test\normalizeEmailSuffixTest;
@@ -27,6 +28,8 @@ foreach ($tests as $function) {
 
     try {
         $function();
+    } catch (IncompleteTestException $exception) {
+        echo 'INCOMPLETE ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
     } catch (AssertException $exception) {
         $success = false;
         echo 'FAIL ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
