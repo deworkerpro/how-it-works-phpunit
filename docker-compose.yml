@@ -1,0 +1,6 @@
+services:
+    app-php-cli:
+        build:
+            context: docker/development/php-cli
+        volumes:
+            - ./:/app
