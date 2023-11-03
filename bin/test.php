@@ -30,6 +30,9 @@ foreach ($tests as $function) {
     } catch (AssertException $exception) {
         $success = false;
         echo 'FAIL ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
+    } catch (Throwable $exception) {
+        $success = false;
+        echo 'ERROR ' . $name . PHP_EOL . $exception . PHP_EOL . PHP_EOL;
     }
 }
 
