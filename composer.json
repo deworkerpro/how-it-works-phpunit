@@ -1,0 +1,28 @@
+{
+    "name": "deworkerpro/edu-demo-phpunit",
+    "description": "",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "files": [
+            "src/normalizeEmail.php"
+        ],
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "tests/assertEquals.php"
+        ],
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    }
+}

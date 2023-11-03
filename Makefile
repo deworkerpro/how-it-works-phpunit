@@ -1,4 +1,4 @@
-init: docker-down docker-build docker-up
+init: docker-down docker-build docker-up app-init
 down: docker-down
 
 docker-build:
@@ -10,6 +10,9 @@ docker-up:
 
 docker-down:
 	docker compose down --remove-orphans
+
+app-init:
+	docker compose run --rm app-php-cli composer install
 
 app:
 	@docker compose run --rm app-php-cli php bin/app.php
