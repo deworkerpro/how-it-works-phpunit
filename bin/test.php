@@ -2,20 +2,14 @@
 
 declare(strict_types=1);
 
+use Test\AssertException;
+
 use function App\normalizeEmail;
+use function Test\assertEquals;
 
+require_once __DIR__ . '/../tests/assertEquals.php';
+require_once __DIR__ . '/../tests/AssertException.php';
 require_once __DIR__ . '/../src/normalizeEmail.php';
-
-final class AssertException extends LogicException {}
-
-function assertEquals(string $expected, string $actual): void
-{
-    if ($actual !== $expected) {
-        throw new AssertException(sprintf('Actual value "%s" is not equal to "%s"', $actual, $expected));
-    }
-}
-
-$success = true;
 
 try {
     assertEquals('mail@app.test', normalizeEmail('mail@app.test'));
