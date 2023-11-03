@@ -20,7 +20,8 @@
     "autoload-dev": {
         "files": [
             "tests/assertEquals.php",
-            "tests/markTestIncomplete.php"
+            "tests/markTestIncomplete.php",
+            "tests/loadFileClasses.php"
         ],
         "psr-4": {
             "Test\\": "tests/"
