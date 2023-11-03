@@ -7,9 +7,7 @@ use Test\AssertException;
 use function App\normalizeEmail;
 use function Test\assertEquals;
 
-require_once __DIR__ . '/../tests/assertEquals.php';
-require_once __DIR__ . '/../tests/AssertException.php';
-require_once __DIR__ . '/../src/normalizeEmail.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
     assertEquals('mail@app.test', normalizeEmail('mail@app.test'));
