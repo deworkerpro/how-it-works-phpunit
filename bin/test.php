@@ -12,39 +12,23 @@ use function Test\normalizeEmailDashedMailTest;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-try {
-    normalizeEmailSimpleTest();
-} catch (AssertException $exception) {
-    $success = false;
-    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
-}
+$tests = [
+    normalizeEmailSimpleTest(...),
+    normalizeEmailSuffixTest(...),
+    normalizeEmailDashedSuffixTest(...),
+    normalizeEmailDoubleSuffixTest(...),
+    normalizeEmailDashedMailTest(...),
+];
 
-try {
-    normalizeEmailSuffixTest();
-} catch (AssertException $exception) {
-    $success = false;
-    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
-}
+$success = true;
 
-try {
-    normalizeEmailDashedSuffixTest();
-} catch (AssertException $exception) {
-    $success = false;
-    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
-}
-
-try {
-    normalizeEmailDoubleSuffixTest();
-} catch (AssertException $exception) {
-    $success = false;
-    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
-}
-
-try {
-    normalizeEmailDashedMailTest();
-} catch (AssertException $exception) {
-    $success = false;
-    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
+foreach ($tests as $function) {
+    try {
+        $function();
+    } catch (AssertException $exception) {
+        $success = false;
+        echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
+    }
 }
 
 exit($success ? 0 : 1);
