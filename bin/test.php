@@ -4,21 +4,16 @@ declare(strict_types=1);
 
 use Test\AssertException;
 use Test\IncompleteTestException;
-
-use function Test\normalizeEmailSimpleTest;
-use function Test\normalizeEmailSuffixTest;
-use function Test\normalizeEmailDashedSuffixTest;
-use function Test\normalizeEmailDoubleSuffixTest;
-use function Test\normalizeEmailDashedMailTest;
+use Test\NormalizeEmailTest;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $tests = [
-    normalizeEmailSimpleTest(...),
-    normalizeEmailSuffixTest(...),
-    normalizeEmailDashedSuffixTest(...),
-    normalizeEmailDoubleSuffixTest(...),
-    normalizeEmailDashedMailTest(...),
+    NormalizeEmailTest::testSimple(...),
+    NormalizeEmailTest::testSuffix(...),
+    NormalizeEmailTest::testDashedSuffix(...),
+    NormalizeEmailTest::testDoubleSuffix(...),
+    NormalizeEmailTest::testDashedMail(...),
 ];
 
 $success = true;
