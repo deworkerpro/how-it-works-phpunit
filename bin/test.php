@@ -29,7 +29,7 @@ foreach ($tests as $function) {
         $function();
     } catch (AssertException $exception) {
         $success = false;
-        echo 'FAIL: ' . $name . ': ' . $exception->getMessage() . PHP_EOL;
+        echo 'FAIL ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
     }
 }
 
