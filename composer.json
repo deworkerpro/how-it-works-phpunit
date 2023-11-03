@@ -20,7 +20,11 @@
     "autoload-dev": {
         "files": [
             "tests/assertEquals.php",
-            "tests/normalizeEmailTest.php"
+            "tests/normalizeEmailSimpleTest.php",
+            "tests/normalizeEmailSuffixTest.php",
+            "tests/normalizeEmailDashedSuffixTest.php",
+            "tests/normalizeEmailDoubleSuffixTest.php",
+            "tests/normalizeEmailDashedMailTest.php"
         ],
         "psr-4": {
             "Test\\": "tests/"
