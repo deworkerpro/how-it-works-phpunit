@@ -19,7 +19,8 @@
     },
     "autoload-dev": {
         "files": [
-            "tests/assertEquals.php"
+            "tests/assertEquals.php",
+            "tests/normalizeEmailTest.php"
         ],
         "psr-4": {
             "Test\\": "tests/"
