@@ -2,4 +2,8 @@
 
 declare(strict_types=1);
 
-echo 'Hello!' . PHP_EOL;
+function normalizeEmail(string $email): string {
+    return $email;
+}
+
+echo 'Email: ' . normalizeEmail('mail+suffix@app.test') . PHP_EOL;
