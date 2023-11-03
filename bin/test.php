@@ -14,9 +14,33 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
     normalizeEmailSimpleTest();
+} catch (AssertException $exception) {
+    $success = false;
+    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
+}
+
+try {
     normalizeEmailSuffixTest();
+} catch (AssertException $exception) {
+    $success = false;
+    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
+}
+
+try {
     normalizeEmailDashedSuffixTest();
+} catch (AssertException $exception) {
+    $success = false;
+    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
+}
+
+try {
     normalizeEmailDoubleSuffixTest();
+} catch (AssertException $exception) {
+    $success = false;
+    echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
+}
+
+try {
     normalizeEmailDashedMailTest();
 } catch (AssertException $exception) {
     $success = false;
