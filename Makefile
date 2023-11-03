@@ -15,7 +15,7 @@ app-init:
 	docker compose run --rm app-php-cli composer install
 
 app:
-	@docker compose run --rm app-php-cli php bin/app.php
+	@docker compose run --rm app-php-cli composer app
 
 app-test:
-	@docker compose run --rm app-php-cli php bin/test.php
+	@docker compose run --rm app-php-cli composer test
