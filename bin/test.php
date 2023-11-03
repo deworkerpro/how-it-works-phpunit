@@ -23,11 +23,13 @@ $tests = [
 $success = true;
 
 foreach ($tests as $function) {
+    $name = (new ReflectionFunction($function))->getName();
+
     try {
         $function();
     } catch (AssertException $exception) {
         $success = false;
-        echo 'FAIL: ' . $exception->getMessage() . PHP_EOL;
+        echo 'FAIL: ' . $name . ': ' . $exception->getMessage() . PHP_EOL;
     }
 }
 
