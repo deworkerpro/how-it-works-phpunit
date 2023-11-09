@@ -4,10 +4,27 @@ declare(strict_types=1);
 
 namespace Test;
 
+use InvalidArgumentException;
+use Throwable;
+
 use function App\normalizeEmail;
 
 final class NormalizeEmailTest
 {
+    public static function testIncorrect(): void
+    {
+        try {
+            normalizeEmail('not-email');
+            fail('Incorrect email is passed');
+        } catch (AssertException $exception) {
+            throw $exception;
+        } catch (Throwable $exception) {
+            if (!$exception instanceof InvalidArgumentException) {
+                fail('Incorrect exception type ' . $exception::class);
+            }
+        }
+    }
+
     public static function testSimple(): void
     {
         assertEquals('mail@app.test', normalizeEmail('mail@app.test'));

@@ -20,6 +20,7 @@
     "autoload-dev": {
         "files": [
             "tests/assertEquals.php",
+            "tests/fail.php",
             "tests/markTestIncomplete.php",
             "tests/loadFileClasses.php"
         ],
