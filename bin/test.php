@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Test\AssertException;
 use Test\IncompleteTestException;
+use Test\TestCase;
 
 use function Test\loadFileClasses;
 use function Test\fail;
@@ -26,6 +27,10 @@ foreach ($testFiles as $testFile) {
     $classes = loadFileClasses($testFile->getRealPath());
 
     foreach ($classes as $class) {
+        if (!is_a($class, TestCase::class, true)) {
+            continue;
+        }
+
         $classRef = new ReflectionClass($class);
 
         foreach ($classRef->getMethods(ReflectionMethod::IS_PUBLIC) as $methodRef) {

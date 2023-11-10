@@ -8,20 +8,8 @@ use InvalidArgumentException;
 
 use function App\normalizeEmail;
 
-final class NormalizeEmailTest
+final class NormalizeEmailTest extends TestCase
 {
-    private ?string $expectedException = null;
-
-    private function expectException(string $class): void
-    {
-        $this->expectedException = $class;
-    }
-
-    public function getExpectedException(): ?string
-    {
-        return $this->expectedException;
-    }
-
     public function testIncorrect(): void
     {
         $this->expectException(InvalidArgumentException::class);
