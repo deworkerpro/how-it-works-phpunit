@@ -7,7 +7,6 @@ use Test\IncompleteTestException;
 use Test\TestCase;
 
 use function Test\loadFileClasses;
-use function Test\fail;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -40,26 +39,10 @@ foreach ($testFiles as $testFile) {
 
             $name = $classRef->getName() . '::' . $methodRef->getName();
 
-            $object = new $class();
-            $methodName = $methodRef->getName();
+            $test = new $class($methodRef->getName());
 
             try {
-                try {
-                    $object->$methodName();
-                    if (($expectedExceptionClass = $object->getExpectedException()) !== null) {
-                        fail('Exception ' . $expectedExceptionClass . ' is not thrown');
-                    }
-                } catch (AssertException $exception) {
-                    throw $exception;
-                } catch (Throwable $exception) {
-                    if (($expectedExceptionClass = $object->getExpectedException()) !== null) {
-                        if ($exception::class !== $expectedExceptionClass) {
-                            fail('Exception ' . $exception::class . ' is not equal to ' . $expectedExceptionClass);
-                        }
-                    } else {
-                        throw $exception;
-                    }
-                }
+                $test->run();
             } catch (IncompleteTestException $exception) {
                 echo 'INCOMPLETE ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
             } catch (AssertException $exception) {
