@@ -6,7 +6,6 @@ namespace Test;
 
 use ReflectionClass;
 use ReflectionMethod;
-use Throwable;
 
 final class TestSuite
 {
@@ -39,17 +38,7 @@ final class TestSuite
                 }
 
                 $test = new $class($methodRef->getName());
-
-                try {
-                    $test->run();
-                    $emitter->testPass($test);
-                } catch (IncompleteTestException $exception) {
-                    $emitter->testIncomplete($test, $exception);
-                } catch (AssertException $exception) {
-                    $emitter->testFailure($test, $exception);
-                } catch (Throwable $exception) {
-                    $emitter->testError($test, $exception);
-                }
+                $test->run($emitter);
             }
         }
 

@@ -16,23 +16,32 @@ abstract class TestCase extends Assert
         $this->methodName = $methodName;
     }
 
-    public function run(): void
+    public function run(EventEmitter $emitter): void
     {
-        try {
-            $this->{$this->methodName}();
-            if ($this->expectedException !== null) {
-                self::fail('Exception ' . $this->expectedException . ' is not thrown');
-            }
-        } catch (AssertException $exception) {
-            throw $exception;
-        } catch (Throwable $exception) {
-            if ($this->expectedException !== null) {
-                if ($exception::class !== $this->expectedException) {
-                    self::fail('Exception ' . $exception::class . ' is not equal to ' . $this->expectedException);
+        try{
+            try {
+                $this->{$this->methodName}();
+                if ($this->expectedException !== null) {
+                    self::fail('Exception ' . $this->expectedException . ' is not thrown');
                 }
-            } else {
+            } catch (AssertException $exception) {
                 throw $exception;
+            } catch (Throwable $exception) {
+                if ($this->expectedException !== null) {
+                    if ($exception::class !== $this->expectedException) {
+                        self::fail('Exception ' . $exception::class . ' is not equal to ' . $this->expectedException);
+                    }
+                } else {
+                    throw $exception;
+                }
             }
+            $emitter->testPass($this);
+        } catch (IncompleteTestException $exception) {
+            $emitter->testIncomplete($this, $exception);
+        } catch (AssertException $exception) {
+            $emitter->testFailure($this, $exception);
+        } catch (Throwable $exception) {
+            $emitter->testError($this, $exception);
         }
     }
 
