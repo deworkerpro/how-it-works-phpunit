@@ -9,8 +9,10 @@ use Test\Event\Pass;
 
 interface EventListener
 {
+    public function onTestsStart(): void;
     public function onPass(Pass $event): void;
     public function onIncomplete(Failure $event): void;
     public function onFailure(Failure $event): void;
     public function onError(Failure $event): void;
+    public function onTestsComplete(): void;
 }

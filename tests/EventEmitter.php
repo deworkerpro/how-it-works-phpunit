@@ -20,6 +20,13 @@ final class EventEmitter
         $this->listeners[] = $listener;
     }
 
+    public function testsStart(): void
+    {
+        foreach ($this->listeners as $listener) {
+            $listener->onTestsStart();
+        }
+    }
+
     public function testPass(TestCase $test): void
     {
         foreach ($this->listeners as $listener) {
@@ -45,6 +52,13 @@ final class EventEmitter
     {
         foreach ($this->listeners as $listener) {
             $listener->onError(new Failure($test, $error));
+        }
+    }
+
+    public function testsComplete(): void
+    {
+        foreach ($this->listeners as $listener) {
+            $listener->onTestsComplete();
         }
     }
 }

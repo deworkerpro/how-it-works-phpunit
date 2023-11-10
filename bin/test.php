@@ -28,11 +28,7 @@ foreach ($testFiles as $testFile) {
     $suite->addTestFile($testFile->getRealPath());
 }
 
-echo 'Running tests' . PHP_EOL . PHP_EOL;
-
 $result = $suite->run($emitter);
-
-echo PHP_EOL . PHP_EOL;
 
 $printer = new TestSummaryPrinter();
 $printer->print($result);

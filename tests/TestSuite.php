@@ -33,6 +33,8 @@ final class TestSuite
         $failure = [];
         $error = [];
 
+        $emitter->testsStart();
+
         foreach ($this->testClasses as $class) {
             $classRef = new ReflectionClass($class);
 
@@ -59,6 +61,8 @@ final class TestSuite
                 }
             }
         }
+
+        $emitter->testsComplete();
 
         return new TestResult(
             pass: $pass,
