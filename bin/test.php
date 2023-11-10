@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Test\EventEmitter;
+use Test\ResultCollector;
 use Test\TestProgressPrinter;
 use Test\TestSuite;
 use Test\TestSummaryPrinter;
@@ -20,7 +21,11 @@ $testFiles = new CallbackFilterIterator(
 );
 
 $emitter = new EventEmitter();
+
 $emitter->addListener(new TestProgressPrinter());
+
+$collector = new ResultCollector();
+$emitter->addListener($collector);
 
 $suite = new TestSuite();
 
@@ -28,7 +33,9 @@ foreach ($testFiles as $testFile) {
     $suite->addTestFile($testFile->getRealPath());
 }
 
-$result = $suite->run($emitter);
+$suite->run($emitter);
+
+$result = $collector->getResult();
 
 $printer = new TestSummaryPrinter();
 $printer->print($result);

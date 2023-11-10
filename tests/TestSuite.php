@@ -26,13 +26,8 @@ final class TestSuite
         }
     }
 
-    public function run(EventEmitter $emitter): TestResult
+    public function run(EventEmitter $emitter): void
     {
-        $pass = [];
-        $incomplete = [];
-        $failure = [];
-        $error = [];
-
         $emitter->testsStart();
 
         foreach ($this->testClasses as $class) {
@@ -47,28 +42,17 @@ final class TestSuite
 
                 try {
                     $test->run();
-                    $pass[] = $test;
                     $emitter->testPass($test);
                 } catch (IncompleteTestException $exception) {
-                    $incomplete[] = new TestFailure($test, $exception);
                     $emitter->testIncomplete($test, $exception);
                 } catch (AssertException $exception) {
-                    $failure[] = new TestFailure($test, $exception);
                     $emitter->testFailure($test, $exception);
                 } catch (Throwable $exception) {
-                    $error[] = new TestFailure($test, $exception);
                     $emitter->testError($test, $exception);
                 }
             }
         }
 
         $emitter->testsComplete();
-
-        return new TestResult(
-            pass: $pass,
-            incomplete: $incomplete,
-            failure: $failure,
-            error: $error,
-        );
     }
 }
