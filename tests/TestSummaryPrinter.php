@@ -8,6 +8,18 @@ final readonly class TestSummaryPrinter
 {
     public function print(TestResult $result): void
     {
+        foreach ($result->getError() as $item) {
+            echo 'ERROR ' . $item->test->getName() . PHP_EOL . $item->error . PHP_EOL . PHP_EOL;
+        }
+
+        foreach ($result->getFailure() as $item) {
+            echo 'FAIL ' . $item->test->getName() . PHP_EOL . $item->error->getMessage() . PHP_EOL . PHP_EOL;
+        }
+
+        foreach ($result->getIncomplete() as $item) {
+            echo 'INCOMPLETE ' . $item->test->getName() . PHP_EOL . $item->error->getMessage() . PHP_EOL . PHP_EOL;
+        }
+
         if ($result->isSuccess()) {
             echo "\033[30;42m OK \033[0m" . PHP_EOL;
         } else {

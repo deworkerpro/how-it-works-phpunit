@@ -7,34 +7,58 @@ namespace Test;
 final readonly class TestResult
 {
     public function __construct(
-        private int $passCount,
-        private int $incompleteCount,
-        private int $failureCount,
-        private int $errorCount
+        private array $pass,
+        private array $incomplete,
+        private array $failure,
+        private array $error
     ) {}
 
     public function isSuccess(): bool
     {
-        return $this->failureCount === 0 && $this->errorCount === 0;
+        return count($this->failure) === 0 && count($this->error) === 0;
     }
 
     public function getPassCount(): int
     {
-        return $this->passCount;
+        return count($this->pass);
+    }
+
+    /**
+     * @return TestFailure[]
+     */
+    public function getIncomplete(): array
+    {
+        return $this->incomplete;
     }
 
     public function getIncompleteCount(): int
     {
-        return $this->incompleteCount;
+        return count($this->incomplete);
+    }
+
+    /**
+     * @return TestFailure[]
+     */
+    public function getFailure(): array
+    {
+        return $this->failure;
     }
 
     public function getFailureCount(): int
     {
-        return $this->failureCount;
+        return count($this->failure);
+    }
+
+    /**
+     * @return TestFailure[]
+     */
+    public function getError(): array
+    {
+        return $this->error;
     }
 
     public function getErrorCount(): int
     {
-        return $this->errorCount;
+        return count($this->error);
     }
 }
