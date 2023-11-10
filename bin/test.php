@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Test\TestSuite;
+use Test\TestSummaryPrinter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -24,18 +25,7 @@ foreach ($testFiles as $testFile) {
 
 $result = $suite->run();
 
-if ($result->isSuccess()) {
-    echo "\033[30;42m OK \033[0m" . PHP_EOL;
-} else {
-    echo "\033[30;41m FAIL \033[0m" . PHP_EOL;
-}
-
-echo sprintf(
-    "\033[30;43m Pass: %d, Incomplete: %d, Failure: %d, Error: %d \033[0m",
-    $result->getPassCount(),
-    $result->getIncompleteCount(),
-    $result->getFailureCount(),
-    $result->getErrorCount(),
-) . PHP_EOL;
+$printer = new TestSummaryPrinter();
+$printer->print($result);
 
 exit($result->isSuccess() ? 0 : 1);
