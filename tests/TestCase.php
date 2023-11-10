@@ -9,18 +9,22 @@ use Throwable;
 abstract class TestCase extends Assert
 {
     private readonly string $methodName;
+    private readonly int|string|null $dataName;
+    private readonly array $data;
     private ?string $expectedException = null;
 
-    public function __construct(string $methodName)
+    public function __construct(string $methodName, int|string|null $dataName, array $data)
     {
         $this->methodName = $methodName;
+        $this->dataName = $dataName;
+        $this->data = $data;
     }
 
     public function run(EventEmitter $emitter): void
     {
         try{
             try {
-                $this->{$this->methodName}();
+                $this->{$this->methodName}(...$this->data);
                 if ($this->expectedException !== null) {
                     self::fail('Exception ' . $this->expectedException . ' is not thrown');
                 }
@@ -47,7 +51,7 @@ abstract class TestCase extends Assert
 
     public function getName(): string
     {
-        return $this::class . '::' . $this->methodName;
+        return $this::class . '::' . $this->methodName . ($this->dataName !== null ? ' with #' . $this->dataName : '');
     }
 
     protected function expectException(string $class): void

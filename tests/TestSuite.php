@@ -6,6 +6,7 @@ namespace Test;
 
 use ReflectionClass;
 use ReflectionMethod;
+use Test\Attribute\DataProvider;
 
 final class TestSuite
 {
@@ -37,8 +38,29 @@ final class TestSuite
                     continue;
                 }
 
-                $test = new $class($methodRef->getName());
-                $test->run($emitter);
+                $tests = [];
+
+                $attributeRefs = $methodRef->getAttributes();
+
+                foreach ($attributeRefs as $attributeRef) {
+                    if ($attributeRef->getName() === DataProvider::class) {
+                        $attribute = $attributeRef->newInstance();
+
+                        $datasets = $class::{$attribute->methodName}();
+
+                        foreach ($datasets as $name => $data) {
+                            $tests[] = new $class($methodRef->getName(), $name, $data);
+                        }
+                    }
+                }
+
+                if ($tests === []) {
+                    $tests[] = new $class($methodRef->getName(), null, []);
+                }
+
+                foreach ($tests as $test) {
+                    $test->run($emitter);
+                }
             }
         }
 
