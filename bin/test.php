@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Test\EventEmitter;
+use Test\TestProgressPrinter;
 use Test\TestSuite;
 use Test\TestSummaryPrinter;
 
@@ -19,6 +20,7 @@ $testFiles = new CallbackFilterIterator(
 );
 
 $emitter = new EventEmitter();
+$emitter->addListener(new TestProgressPrinter());
 
 $suite = new TestSuite();
 
