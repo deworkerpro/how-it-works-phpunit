@@ -37,20 +37,18 @@ foreach ($testFiles as $testFile) {
                 continue;
             }
 
-            $name = $classRef->getName() . '::' . $methodRef->getName();
-
             $test = new $class($methodRef->getName());
 
             try {
                 $test->run();
             } catch (IncompleteTestException $exception) {
-                echo 'INCOMPLETE ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
+                echo 'INCOMPLETE ' . $test->getName() . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
             } catch (AssertException $exception) {
                 $success = false;
-                echo 'FAIL ' . $name . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
+                echo 'FAIL ' . $test->getName() . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
             } catch (Throwable $exception) {
                 $success = false;
-                echo 'ERROR ' . $name . PHP_EOL . $exception . PHP_EOL . PHP_EOL;
+                echo 'ERROR ' . $test->getName() . PHP_EOL . $exception . PHP_EOL . PHP_EOL;
             }
         }
     }

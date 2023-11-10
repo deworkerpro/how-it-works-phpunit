@@ -36,6 +36,11 @@ abstract class TestCase
         }
     }
 
+    public function getName(): string
+    {
+        return $this::class . '::' . $this->methodName;
+    }
+
     protected function expectException(string $class): void
     {
         $this->expectedException = $class;
