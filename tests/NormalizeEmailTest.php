@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Test;
 
 use InvalidArgumentException;
-use Test\Attribute\DataProvider;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 use function App\normalizeEmail;
 
+#[CoversFunction('normalizeEmail')]
 final class NormalizeEmailTest extends TestCase
 {
     #[DataProvider('getValues')]

@@ -24,6 +24,9 @@
     },
     "scripts": {
         "app": "php bin/app.php",
-        "test": "php bin/test.php"
+        "test": "phpunit --colors=always"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.4"
     }
 }
