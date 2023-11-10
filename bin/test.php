@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Test\EventEmitter;
 use Test\TestSuite;
 use Test\TestSummaryPrinter;
 
@@ -17,6 +18,8 @@ $testFiles = new CallbackFilterIterator(
     static fn(SplFileInfo $file) => $file->isFile() && str_ends_with($file->getFilename(), 'Test.php')
 );
 
+$emitter = new EventEmitter();
+
 $suite = new TestSuite();
 
 foreach ($testFiles as $testFile) {
@@ -25,7 +28,7 @@ foreach ($testFiles as $testFile) {
 
 echo 'Running tests' . PHP_EOL . PHP_EOL;
 
-$result = $suite->run();
+$result = $suite->run($emitter);
 
 echo PHP_EOL . PHP_EOL;
 

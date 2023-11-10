@@ -26,7 +26,7 @@ final class TestSuite
         }
     }
 
-    public function run(): TestResult
+    public function run(EventEmitter $emitter): TestResult
     {
         $pass = [];
         $incomplete = [];
@@ -47,15 +47,19 @@ final class TestSuite
                     $test->run();
                     echo "\033[1;0m.\033[0m";
                     $pass[] = $test;
+                    $emitter->testPass($test);
                 } catch (IncompleteTestException $exception) {
                     echo "\033[1;33mI\033[0m";
                     $incomplete[] = new TestFailure($test, $exception);
+                    $emitter->testIncomplete($test, $exception);
                 } catch (AssertException $exception) {
                     echo "\033[30;41mF\033[0m";
                     $failure[] = new TestFailure($test, $exception);
+                    $emitter->testFailure($test, $exception);
                 } catch (Throwable $exception) {
                     echo "\033[30;41mE\033[0m";
                     $error[] = new TestFailure($test, $exception);
+                    $emitter->testError($test, $exception);
                 }
             }
         }
