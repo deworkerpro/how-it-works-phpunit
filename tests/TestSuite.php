@@ -26,9 +26,12 @@ final class TestSuite
         }
     }
 
-    public function run(): bool
+    public function run(): TestResult
     {
-        $success = true;
+        $passCount = 0;
+        $incompleteCount = 0;
+        $failureCount = 0;
+        $errorCount = 0;
 
         foreach ($this->testClasses as $class) {
             $classRef = new ReflectionClass($class);
@@ -42,18 +45,25 @@ final class TestSuite
 
                 try {
                     $test->run();
+                    $passCount++;
                 } catch (IncompleteTestException $exception) {
+                    $incompleteCount++;
                     echo 'INCOMPLETE ' . $test->getName() . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
                 } catch (AssertException $exception) {
-                    $success = false;
+                    $failureCount++;
                     echo 'FAIL ' . $test->getName() . PHP_EOL . $exception->getMessage() . PHP_EOL . PHP_EOL;
                 } catch (Throwable $exception) {
-                    $success = false;
+                    $errorCount++;
                     echo 'ERROR ' . $test->getName() . PHP_EOL . $exception . PHP_EOL . PHP_EOL;
                 }
             }
         }
 
-        return $success;
+        return new TestResult(
+            passCount: $passCount,
+            incompleteCount: $incompleteCount,
+            failureCount: $failureCount,
+            errorCount: $errorCount,
+        );
     }
 }

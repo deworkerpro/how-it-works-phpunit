@@ -22,6 +22,20 @@ foreach ($testFiles as $testFile) {
     $suite->addTestFile($testFile->getRealPath());
 }
 
-$success = $suite->run();
+$result = $suite->run();
 
-exit($success ? 0 : 1);
+if ($result->isSuccess()) {
+    echo "\033[30;42m OK \033[0m" . PHP_EOL;
+} else {
+    echo "\033[30;41m FAIL \033[0m" . PHP_EOL;
+}
+
+echo sprintf(
+    "\033[30;43m Pass: %d, Incomplete: %d, Failure: %d, Error: %d \033[0m",
+    $result->getPassCount(),
+    $result->getIncompleteCount(),
+    $result->getFailureCount(),
+    $result->getErrorCount(),
+) . PHP_EOL;
+
+exit($result->isSuccess() ? 0 : 1);
